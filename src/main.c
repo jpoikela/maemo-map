@@ -30,6 +30,7 @@ typedef struct {
 } map_source_t;
 
 static const map_source_t MAP_SOURCES[] = {
+    {"NokiaOviMap",             MAP_SOURCE_NOKIAOVIMAP              },
     {"OpenStreetMap",           MAP_SOURCE_OPENSTREETMAP            },
     {"OpenStreetMap Renderer",  MAP_SOURCE_OPENSTREETMAP_RENDERER   },
     {"OpenAerialMap",           MAP_SOURCE_OPENAERIALMAP            },
@@ -185,8 +186,11 @@ usage (GOptionContext *context)
 {
     int i;
 
+#ifdef GLIB2_12
+    puts(g_option_context_get_summary(context));
+#else
     puts(g_option_context_get_help(context, TRUE, NULL));
-
+#endif
     printf("Valid map sources:\n");
     for(i=0; i<(sizeof(MAP_SOURCES)/sizeof(MAP_SOURCES[0])); i++)
         printf("\t%d:\t%s\n",i,MAP_SOURCES[i].name);

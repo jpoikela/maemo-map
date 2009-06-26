@@ -39,6 +39,12 @@ G_BEGIN_DECLS
 #define OSM_IS_GPS_MAP_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), OSM_TYPE_GPS_MAP))
 #define OSM_GPS_MAP_GET_CLASS(obj)   (G_TYPE_INSTANCE_GET_CLASS ((obj), OSM_TYPE_GPS_MAP, OsmGpsMapClass))
 
+#ifdef LIBSOUP2_2
+#define SOUP_TYPE_URI  (soup_uri_get_type())
+#define SOUP_URI(obj)  (G_TYPE_CHECK_INSTANCE_CAST ((obj), SOUP_TYPE_URI, SoupUri))
+#define SOUP_URI_CLASS(klass)   (G_TYPE_CHECK_CLASS_CAST ((klass), SOUP_TYPE_URI, SoupUriClass))
+#endif
+
 typedef struct _OsmGpsMapClass OsmGpsMapClass;
 typedef struct _OsmGpsMap OsmGpsMap;
 typedef struct _OsmGpsMapPrivate OsmGpsMapPrivate;
@@ -63,6 +69,7 @@ typedef struct {
 //https://garage.maemo.org/plugins/scmsvn/viewcvs.php/trunk/src/maps.c
 //http://www.ponies.me.uk/maps/GoogleTileUtils.java
 //http://www.mgmaps.com/cache/MapTileCacher.perl
+#define MAP_SOURCE_NOKIAOVIMAP              "http://maptile.svc.nokia.com.edgesuite.net/maptiler/maptile/newest/normal.day/#Z/#X/#Y/256/png"
 #define MAP_SOURCE_OPENSTREETMAP            "http://tile.openstreetmap.org/#Z/#X/#Y.png"
 #define MAP_SOURCE_OPENSTREETMAP_RENDERER   "http://tah.openstreetmap.org/Tiles/tile/#Z/#X/#Y.png"
 #define MAP_SOURCE_OPENAERIALMAP            "http://tile.openaerialmap.org/tiles/1.0.0/openaerialmap-900913/#Z/#X/#Y.jpg"
@@ -76,6 +83,7 @@ typedef struct {
 #define MAP_SOURCE_VIRTUAL_EARTH_SATTELITE  "http://a#R.ortho.tiles.virtualearth.net/tiles/a#W.jpeg?g=50"
 
 GType osm_gps_map_get_type (void) G_GNUC_CONST;
+
 void osm_gps_map_download_maps (OsmGpsMap *map, coord_t *pt1, coord_t *pt2, int zoom_start, int zoom_end);
 void osm_gps_map_get_bbox (OsmGpsMap *map, coord_t *pt1, coord_t *pt2);
 void osm_gps_map_set_mapcenter (OsmGpsMap *map, float latitude, float longitude, int zoom);
